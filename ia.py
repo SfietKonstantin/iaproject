@@ -5,7 +5,18 @@ import Network
 import Protocol
 import Game
 import time
-import select
+import threading
+import queue
+
+def startThread(t, q):
+    t = threading.Thread(target=readInput, args=(sys.stdin, t, q))
+    t.daemon = True
+    t.start()
+
+def readInput(stream, thread, queue):
+    line = input()
+    queue.put(line)
+    startThread(thread, queue)
 
 def interpretCommand(text, socket):
     print("Interpreting %s" % text)
@@ -38,15 +49,24 @@ def launch(name):
     # Try to connect 
     socket = Network.connect("192.168.0.2", 5555)
     Protocol.setName(socket, name)
+    
+    # Thread for inputs
+    q = queue.Queue()
+    t = None
+    startThread(t, q)
+    
         
     # Main event loop
     data = bytes()
     while True:
         # Send commands
-        if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-            line = sys.stdin.readline()
+        try:  
+            line = q.get_nowait()
             interpretCommand(line, socket)
+        except queue.Empty:
+            pass
         
+        # Get order
         order = Network.getOrder(socket)
         
         try:

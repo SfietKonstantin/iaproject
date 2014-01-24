@@ -1,7 +1,6 @@
 import socket
 import struct
 import sys
-import fcntl
 import os
 import errno
 
@@ -12,7 +11,7 @@ def connect(ip, port):
     except Exception as error:
         print("Connection error: ", error)
         sys.exit(-1)
-    fcntl.fcntl(sock, fcntl.F_SETFL, os.O_NONBLOCK)
+    sock.setblocking(0)
     return sock
     
 def getOrder(sock):
@@ -22,9 +21,10 @@ def getOrder(sock):
     except socket.error as error:
         err = error.args[0]
         if err == errno.EAGAIN or err == errno.EWOULDBLOCK:
-            pass
+            return None
         else:
             print("Connection error: ", error)
+            sys.exit(-2)
     except Exception as error:
         print("Connection error: ", error)
         sys.exit(-2)

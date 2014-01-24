@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import sys
-import argparse
+#import argparse
 import Network
 import Protocol
 import Game
@@ -58,9 +58,9 @@ def launch(name):
     socket.close()
     
 
-parser = argparse.ArgumentParser(description='VvsW')
-parser.add_argument('name', metavar='name', type=str, nargs=1,
-                    help='Name of the bot')
-args = parser.parse_args()
-name = args.name[0]
-launch(name)
+#parser = argparse.ArgumentParser(description='VvsW')
+#parser.add_argument('name', metavar='name', type=str, nargs=1,
+                    #help='Name of the bot')
+#args = parser.parse_args()
+#name = args.name[0]
+launch("Edward")

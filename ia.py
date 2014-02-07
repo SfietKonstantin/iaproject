@@ -4,6 +4,7 @@ import sys
 import Network
 import Protocol
 import Game
+import IA
 import time
 import threading
 import queue
@@ -47,7 +48,7 @@ def launch(name):
     game = Game.Game()
     
     # Try to connect 
-    socket = Network.connect("192.168.0.2", 5555)
+    socket = Network.connect("192.168.0.3", 8080)
     Protocol.setName(socket, name)
     
     # Thread for inputs
@@ -83,4 +84,4 @@ def launch(name):
                     #help='Name of the bot')
 #args = parser.parse_args()
 #name = args.name[0]
-launch("Edward")
+launch("Not Edward")

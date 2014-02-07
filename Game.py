@@ -3,7 +3,6 @@ class Cell:
     vampires = 0
     werewolves = 0
 
-
 class Game:
     n = -1
     m = -1
@@ -46,6 +45,26 @@ class Game:
     def setWerewolf(self, x, y, count):
         self.board[y][x].werewolves = count
         self.checkRace()
+    
+    def getHuman(self):
+        human = []
+        for i in range(self.n):
+            for j in range(self.m):
+                cell = self.board[i][j]
+                if cell.human > 0:
+                    human.append({"coord": (i, j), "count": cell.human})
+        return human
+    
+    def getCreatures(self):
+        creatures = []
+        for i in range(self.n):
+            for j in range(self.m):
+                cell = self.board[i][j]
+                if self.race == "V" and cell.vampires > 0:
+                    creatures.append({"coord": (i, j), "count": cell.vampires})
+                if self.race == "W" and cell.werewolves > 0:
+                    creatures.append({"coord": (i, j), "count": cell.werewolves})
+        return creatures
     
     def __str__(self):
         race = "?"

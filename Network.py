@@ -7,7 +7,7 @@ import errno
 def connect(ip, port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        sock.connect(("192.168.0.2", 5555))
+        sock.connect((ip, port))
     except Exception as error:
         print("Connection error: ", error)
         sys.exit(-1)

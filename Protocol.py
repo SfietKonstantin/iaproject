@@ -1,4 +1,5 @@
 import Network
+import IA
 
 def setName(socket, name):
     Network.send(socket, "NME", len(name), name)
@@ -36,6 +37,21 @@ def manageOrder(socket, order, game):
             game.setVampire(x, y, v)
             game.setWerewolf(x, y, w)
         print(game)
+        print("================")
+        human = game.getHuman()
+        creatures = game.getCreatures()
+        for creature in creatures:
+            agent = IA.Agent()
+            agent.i = creature["coord"][0]
+            agent.j = creature["coord"][1]
+            agent.count = creature["count"]
+            print("Agent: %s" % str(creature["coord"]))
+            for h in human:
+                print("Human: %s. %f" % (str(h["coord"]), agent.cost(h["count"], h["coord"][0], h["coord"][1], game.n)))
+            
+        
+        
+        
     elif orderStr == "END":
         pass
         #ici on met fin à la partie en cours
